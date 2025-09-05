@@ -1,0 +1,165 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  password  String
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relations
+  blogs     Blog[]
+  
+  @@map("users")
+}
+
+model Blog {
+  id          String   @id @default(cuid())
+  title       String
+  content     String   @db.Text
+  excerpt     String
+  image       String
+  slug        String   @unique
+  published   Boolean  @default(false)
+  featured    Boolean  @default(false)
+  views       Int      @default(0)
+  publishDate DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Relations
+  authorId    String
+  author      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  tags        Tag[]    @relation("BlogTags")
+  
+  @@map("blogs")
+}
+
+model Tag {
+  id    String @id @default(cuid())
+  name  String @unique
+  slug  String @unique
+  color String @default("#3B82F6")
+  
+  // Relations
+  blogs Blog[] @relation("BlogTags")
+  
+  @@map("tags")
+}
+
+model Feature {
+  id          String  @id @default(cuid())
+  title       String  @unique
+  description String  @db.Text
+  icon        String
+  order       Int     @default(0)
+  published   Boolean @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("features")
+}
+
+model Testimonial {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  designation String
+  company     String?
+  image       String
+  content     String   @db.Text
+  rating      Int      @default(5)
+  featured    Boolean  @default(false)
+  published   Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("testimonials")
+}
+
+model Brand {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  logo      String
+  website   String?
+  order     Int      @default(0)
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("brands")
+}
+
+model Contact {
+  id        String      @id @default(cuid())
+  name      String
+  email     String
+  subject   String?
+  message   String      @db.Text
+  status    ContactStatus @default(UNREAD)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  
+  @@map("contacts")
+}
+
+model Newsletter {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  active    Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("newsletters")
+}
+
+model PricingPlan {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  price       Float
+  period      String   // monthly, yearly
+  description String?
+  features    String[] // Array of feature strings
+  popular     Boolean  @default(false)
+  published   Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("pricing_plans")
+}
+
+model SiteSettings {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  value       String   @db.Text
+  type        String   @default("string") // string, number, boolean, json
+  description String?
+  updatedAt   DateTime @updatedAt
+  
+  @@map("site_settings")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum ContactStatus {
+  UNREAD
+  READ
+  REPLIED
+  ARCHIVED
+}

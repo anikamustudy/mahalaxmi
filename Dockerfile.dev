@@ -1,0 +1,43 @@
+# Development Dockerfile with hot reload support
+
+FROM node:18-alpine AS base
+
+# Development stage
+FROM base AS development
+WORKDIR /app
+
+# Install dependencies
+COPY package.json package-lock.json* ./
+RUN npm ci
+
+# Copy source code
+COPY . .
+
+# Generate Prisma client
+RUN npx prisma generate
+
+# Expose port
+EXPOSE 3000
+
+# Start development server
+CMD ["npm", "run", "dev"]
+
+# Prisma Studio stage
+FROM base AS prisma-studio
+WORKDIR /app
+
+# Install dependencies
+COPY package.json package-lock.json* ./
+RUN npm ci
+
+# Copy Prisma schema
+COPY prisma ./prisma
+
+# Generate Prisma client
+RUN npx prisma generate
+
+# Expose Prisma Studio port
+EXPOSE 5555
+
+# Start Prisma Studio
+CMD ["npx", "prisma", "studio", "--hostname", "0.0.0.0"]
