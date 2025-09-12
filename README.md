@@ -72,3 +72,16 @@ If you like the template, please star this repository to inspire the team to cre
 
 **29 Jan 2025**
 - Upgraded to Next.js 15
+
+
+ # setup backend
+   cd backend
+   pip install -r requirements.txt
+   # Update .env with your database URL
+   python seed_data.py  # Creates admin user and sample data
+   python main.py       # Start FastAPI server
+
+   # setup frontend
+
+   npm install
+   npm run dev         # Start Next.js development server

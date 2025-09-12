@@ -3,18 +3,45 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { navbarAPI, MenuItem } from "@/lib/api";
 import ThemeToggler from "./ThemeToggler";
-import menuData from "./menuData";
 
 const Header = () => {
-  // Navbar toggle
+  const { user, isAuthenticated, logout } = useAuth();
+  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [navbarOpen, setNavbarOpen] = useState(false);
+  const [openIndex, setOpenIndex] = useState(-1);
+  const [sticky, setSticky] = useState(false);
+  const usePathName = usePathname();
+
+  // Fetch dynamic menu items
+  useEffect(() => {
+    const fetchMenuItems = async () => {
+      try {
+        const items = await navbarAPI.getMenuItems();
+        setMenuItems(items);
+      } catch (error) {
+        console.error('Failed to fetch menu items:', error);
+        // Fallback to static menu if API fails
+        setMenuItems([
+          { id: '1', title: 'Home', path: '/', new_tab: false, order: 1, children: [] },
+          { id: '2', title: 'About', path: '/about', new_tab: false, order: 2, children: [] },
+          { id: '3', title: 'Blog', path: '/blog', new_tab: false, order: 3, children: [] },
+          { id: '4', title: 'Contact', path: '/contact', new_tab: false, order: 4, children: [] },
+        ]);
+      }
+    };
+
+    fetchMenuItems();
+  }, []);
+
+  // Navbar toggle
   const navbarToggleHandler = () => {
     setNavbarOpen(!navbarOpen);
   };
 
   // Sticky Navbar
-  const [sticky, setSticky] = useState(false);
   const handleStickyNavbar = () => {
     if (window.scrollY >= 80) {
       setSticky(true);
@@ -22,13 +49,14 @@ const Header = () => {
       setSticky(false);
     }
   };
+
   useEffect(() => {
     window.addEventListener("scroll", handleStickyNavbar);
-  });
+    return () => window.removeEventListener("scroll", handleStickyNavbar);
+  }, []);
 
-  // submenu handler
-  const [openIndex, setOpenIndex] = useState(-1);
-  const handleSubmenu = (index) => {
+  // Submenu handler
+  const handleSubmenu = (index: number) => {
     if (openIndex === index) {
       setOpenIndex(-1);
     } else {
@@ -36,7 +64,11 @@ const Header = () => {
     }
   };
 
-  const usePathName = usePathname();
+  // Handle logout
+  const handleLogout = () => {
+    logout();
+    setNavbarOpen(false);
+  };
 
   return (
     <>
@@ -105,11 +137,12 @@ const Header = () => {
                   }`}
                 >
                   <ul className="block lg:flex lg:space-x-12">
-                    {menuData.map((menuItem, index) => (
-                      <li key={index} className="group relative">
+                    {menuItems.map((menuItem, index) => (
+                      <li key={menuItem.id} className="group relative">
                         {menuItem.path ? (
                           <Link
                             href={menuItem.path}
+                            target={menuItem.new_tab ? "_blank" : "_self"}
                             className={`flex py-2 text-base lg:mr-0 lg:inline-flex lg:px-0 lg:py-6 ${
                               usePathName === menuItem.path
                                 ? "text-primary dark:text-white"
@@ -141,10 +174,11 @@ const Header = () => {
                                 openIndex === index ? "block" : "hidden"
                               }`}
                             >
-                              {menuItem.submenu.map((submenuItem, index) => (
+                              {menuItem.children.map((submenuItem) => (
                                 <Link
-                                  href={submenuItem.path}
-                                  key={index}
+                                  href={submenuItem.path || '#'}
+                                  key={submenuItem.id}
+                                  target={submenuItem.new_tab ? "_blank" : "_self"}
                                   className="text-dark hover:text-primary block rounded-sm py-2.5 text-sm lg:px-3 dark:text-white/70 dark:hover:text-white"
                                 >
                                   {submenuItem.title}
@@ -159,19 +193,43 @@ const Header = () => {
                 </nav>
               </div>
               <div className="flex items-center justify-end pr-16 lg:pr-0">
-                <Link
-                  href="/signin"
-                  className="text-dark hidden px-7 py-3 text-base font-medium hover:opacity-70 md:block dark:text-white"
-                >
-                  Sign In
-                </Link>
-                <Link
-                  href="/signup"
-                  className="ease-in-up shadow-btn hover:shadow-btn-hover bg-primary hover:bg-primary/90 hidden rounded-xs px-8 py-3 text-base font-medium text-white transition duration-300 md:block md:px-9 lg:px-6 xl:px-9"
-                >
-                  Sign Up
-                </Link>
-                <div>
+                {isAuthenticated ? (
+                  <>
+                    <div className="text-dark hidden px-3 py-3 text-base font-medium md:block dark:text-white">
+                      Welcome, {user?.name || user?.email}
+                    </div>
+                    {user?.role === 'ADMIN' && (
+                      <Link
+                        href="/admin/dashboard"
+                        className="text-dark hidden px-4 py-3 text-base font-medium hover:opacity-70 md:block dark:text-white"
+                      >
+                        Admin
+                      </Link>
+                    )}
+                    <button
+                      onClick={handleLogout}
+                      className="ease-in-up shadow-btn hover:shadow-btn-hover bg-red-600 hover:bg-red-700 hidden rounded-xs px-6 py-3 text-base font-medium text-white transition duration-300 md:block"
+                    >
+                      Logout
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      href="/signin"
+                      className="text-dark hidden px-7 py-3 text-base font-medium hover:opacity-70 md:block dark:text-white"
+                    >
+                      Sign In
+                    </Link>
+                    <Link
+                      href="/signup"
+                      className="ease-in-up shadow-btn hover:shadow-btn-hover bg-primary hover:bg-primary/90 hidden rounded-xs px-8 py-3 text-base font-medium text-white transition duration-300 md:block md:px-9 lg:px-6 xl:px-9"
+                    >
+                      Sign Up
+                    </Link>
+                  </>
+                )}
+                <div className="ml-4">
                   <ThemeToggler />
                 </div>
               </div>

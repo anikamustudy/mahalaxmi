@@ -1,14 +1,47 @@
+"use client";
+
 import Link from "next/link";
-
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Sign In Page | Free Next.js Template for Startup and SaaS",
-  description: "This is Sign In Page for Startup Nextjs Template",
-  // other metadata
-};
+import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useAuth } from "@/contexts/AuthContext";
 
 const SigninPage = () => {
+  const { login, isAuthenticated, isLoading } = useAuth();
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      router.push("/");
+    }
+  }, [isAuthenticated, router]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setIsSubmitting(true);
+
+    try {
+      await login(email, password);
+      router.push("/");
+    } catch (err: any) {
+      setError(err.message || "Login failed. Please check your credentials.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
   return (
     <>
       <section className="relative z-10 overflow-hidden pt-36 pb-16 md:pb-20 lg:pt-[180px] lg:pb-28">
@@ -80,7 +113,12 @@ const SigninPage = () => {
                   </p>
                   <span className="bg-body-color/50 hidden h-[1px] w-full max-w-[70px] sm:block"></span>
                 </div>
-                <form>
+                {error && (
+                  <div className="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+                    {error}
+                  </div>
+                )}
+                <form onSubmit={handleSubmit}>
                   <div className="mb-8">
                     <label
                       htmlFor="email"
@@ -91,6 +129,9 @@ const SigninPage = () => {
                     <input
                       type="email"
                       name="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
                       placeholder="Enter your Email"
                       className="border-stroke dark:text-body-color-dark dark:shadow-two text-body-color focus:border-primary dark:focus:border-primary w-full rounded-xs border bg-[#f8f8f8] px-6 py-3 text-base outline-hidden transition-all duration-300 dark:border-transparent dark:bg-[#2C303B] dark:focus:shadow-none"
                     />
@@ -105,6 +146,9 @@ const SigninPage = () => {
                     <input
                       type="password"
                       name="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
                       placeholder="Enter your Password"
                       className="border-stroke dark:text-body-color-dark dark:shadow-two text-body-color focus:border-primary dark:focus:border-primary w-full rounded-xs border bg-[#f8f8f8] px-6 py-3 text-base outline-hidden transition-all duration-300 dark:border-transparent dark:bg-[#2C303B] dark:focus:shadow-none"
                     />
@@ -153,8 +197,22 @@ const SigninPage = () => {
                     </div>
                   </div>
                   <div className="mb-6">
-                    <button className="shadow-submit dark:shadow-submit-dark bg-primary hover:bg-primary/90 flex w-full items-center justify-center rounded-xs px-9 py-4 text-base font-medium text-white duration-300">
-                      Sign in
+                    <button 
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="shadow-submit dark:shadow-submit-dark bg-primary hover:bg-primary/90 disabled:bg-primary/70 flex w-full items-center justify-center rounded-xs px-9 py-4 text-base font-medium text-white duration-300"
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                          Signing in...
+                        </>
+                      ) : (
+                        'Sign in'
+                      )}
                     </button>
                   </div>
                 </form>
