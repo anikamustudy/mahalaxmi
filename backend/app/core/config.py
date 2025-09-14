@@ -1,6 +1,5 @@
 from pydantic_settings import BaseSettings
-from typing import Optional
-
+from typing import List  # Only need List for the CORS origins
 
 class Settings(BaseSettings):
     # Database
@@ -12,7 +11,7 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     
     # CORS
-    BACKEND_CORS_ORIGINS: list[str] = ["http://localhost:3000"]
+    BACKEND_CORS_ORIGINS: List[str] = ["http://localhost:3000"]
     
     # Application
     API_V1_STR: str = "/api/v1"

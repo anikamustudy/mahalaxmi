@@ -271,6 +271,22 @@ export const navbarAPI = {
   },
 };
 
+
+
+// src/lib/api.ts (in getMenuItems)
+export async function getMenuItems() {
+  try {
+    return await apiFetch('/api/menu-items'); // Your endpoint
+  } catch {
+    return [
+      { id: 1, label: 'Home', href: '/' },
+      { id: 2, label: 'Blog', href: '/blog' },
+      { id: 3, label: 'About', href: '/about' },
+    ]; // Static fallback
+  }
+}
+
+
 // Contact API
 export const contactAPI = {
   submitContactForm: async (contactData: {

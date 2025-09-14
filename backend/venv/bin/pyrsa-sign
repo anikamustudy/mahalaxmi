@@ -1,4 +1,4 @@
-#!/home/gyani/Desktop/ramesh/mahalaxmi/backend/venv/bin/python3
+#!/home/gyani/Desktop/ramesh/mahalaxmi/backend/venv/bin/python3.8
 # -*- coding: utf-8 -*-
 import re
 import sys
