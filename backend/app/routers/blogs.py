@@ -69,7 +69,7 @@ async def get_blogs(
     blogs = result.scalars().all()
     
     return BlogsResponse(
-        blogs=[BlogList.from_orm(blog) for blog in blogs],
+        blogs=[BlogList.model_validate(blog) for blog in blogs],
         total=total,
         skip=skip,
         limit=limit
@@ -91,7 +91,7 @@ async def get_featured_blogs(
     result = await session.execute(query)
     blogs = result.scalars().all()
     
-    return [BlogList.from_orm(blog) for blog in blogs]
+    return [BlogList.model_validate(blog) for blog in blogs]
 
 
 @router.get("/{slug}", response_model=BlogSchema)
@@ -127,7 +127,7 @@ async def get_blog_by_slug(
     blog.views += 1
     await session.commit()
     
-    return BlogSchema.from_orm(blog)
+    return BlogSchema.model_validate(blog)
 
 
 @router.post("/", response_model=BlogSchema)
@@ -180,7 +180,7 @@ async def create_blog(
     )
     blog = result.scalar_one()
     
-    return BlogSchema.from_orm(blog)
+    return BlogSchema.model_validate(blog)
 
 
 @router.put("/{blog_id}", response_model=BlogSchema)
@@ -225,7 +225,7 @@ async def update_blog(
     )
     updated_blog = result.scalar_one()
     
-    return BlogSchema.from_orm(updated_blog)
+    return BlogSchema.model_validate(updated_blog)
 
 
 @router.delete("/{blog_id}", response_model=MessageResponse)
@@ -267,7 +267,7 @@ async def get_blog_comments(
     result = await session.execute(query)
     comments = result.scalars().all()
     
-    return [CommentSchema.from_orm(comment) for comment in comments]
+    return [CommentSchema.model_validate(comment) for comment in comments]
 
 
 @router.post("/{blog_id}/comments", response_model=CommentSchema)
@@ -300,7 +300,7 @@ async def create_comment(
     await session.commit()
     await session.refresh(db_comment)
     
-    return CommentSchema.from_orm(db_comment)
+    return CommentSchema.model_validate(db_comment)
 
 
 @router.put("/comments/{comment_id}/approve", response_model=CommentSchema)
@@ -323,7 +323,7 @@ async def approve_comment(
     await session.commit()
     await session.refresh(comment)
     
-    return CommentSchema.from_orm(comment)
+    return CommentSchema.model_validate(comment)
 
 
 @router.delete("/comments/{comment_id}", response_model=MessageResponse)

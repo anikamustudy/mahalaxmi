@@ -31,7 +31,7 @@ async def get_testimonials(
     result = await session.execute(query)
     testimonials = result.scalars().all()
     
-    return [TestimonialSchema.from_orm(testimonial) for testimonial in testimonials]
+    return [TestimonialSchema.model_validate(testimonial) for testimonial in testimonials]
 
 
 @router.post("/", response_model=TestimonialSchema)
@@ -68,7 +68,7 @@ async def create_testimonial(
     await session.commit()
     await session.refresh(db_testimonial)
     
-    return TestimonialSchema.from_orm(db_testimonial)
+    return TestimonialSchema.model_validate(db_testimonial)
 
 
 @router.put("/{testimonial_id}", response_model=TestimonialSchema)
@@ -96,7 +96,7 @@ async def update_testimonial(
     await session.commit()
     await session.refresh(testimonial)
     
-    return TestimonialSchema.from_orm(testimonial)
+    return TestimonialSchema.model_validate(testimonial)
 
 
 @router.delete("/{testimonial_id}", response_model=MessageResponse)

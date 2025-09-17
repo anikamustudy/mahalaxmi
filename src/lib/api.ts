@@ -269,22 +269,67 @@ export const navbarAPI = {
   getMenuItems: async (): Promise<MenuItem[]> => {
     return apiFetch<MenuItem[]>('/api/navbar/menu');
   },
+
+  // Admin menu management
+  getAllMenuItems: async (includeUnpublished = false): Promise<MenuItem[]> => {
+    return apiFetch<MenuItem[]>(`/api/navbar/admin/menu?include_unpublished=${includeUnpublished}`);
+  },
+
+  createMenuItem: async (menuData: {
+    title: string;
+    path?: string;
+    new_tab?: boolean;
+    order?: number;
+    published?: boolean;
+    parent_id?: string;
+  }): Promise<MenuItem> => {
+    return apiFetch<MenuItem>('/api/navbar/menu', {
+      method: 'POST',
+      body: JSON.stringify(menuData),
+    });
+  },
+
+  updateMenuItem: async (itemId: string, menuData: {
+    title?: string;
+    path?: string;
+    new_tab?: boolean;
+    order?: number;
+    published?: boolean;
+    parent_id?: string;
+  }): Promise<MenuItem> => {
+    return apiFetch<MenuItem>(`/api/navbar/menu/${itemId}`, {
+      method: 'PUT',
+      body: JSON.stringify(menuData),
+    });
+  },
+
+  deleteMenuItem: async (itemId: string): Promise<{ message: string }> => {
+    return apiFetch<{ message: string }>(`/api/navbar/menu/${itemId}`, {
+      method: 'DELETE',
+    });
+  },
+
+  reorderMenuItems: async (itemOrders: Array<{
+    id: string;
+    order: number;
+    parent_id?: string;
+  }>): Promise<{ message: string }> => {
+    return apiFetch<{ message: string }>('/api/navbar/admin/menu/reorder', {
+      method: 'POST',
+      body: JSON.stringify(itemOrders),
+    });
+  },
+
+  bulkMenuAction: async (itemIds: string[], action: 'publish' | 'unpublish' | 'delete'): Promise<{ message: string }> => {
+    return apiFetch<{ message: string }>('/api/navbar/admin/menu/bulk-action', {
+      method: 'POST',
+      body: JSON.stringify({ item_ids: itemIds, action }),
+    });
+  },
 };
 
 
 
-// src/lib/api.ts (in getMenuItems)
-export async function getMenuItems() {
-  try {
-    return await apiFetch('/api/menu-items'); // Your endpoint
-  } catch {
-    return [
-      { id: 1, label: 'Home', href: '/' },
-      { id: 2, label: 'Blog', href: '/blog' },
-      { id: 3, label: 'About', href: '/about' },
-    ]; // Static fallback
-  }
-}
 
 
 // Contact API

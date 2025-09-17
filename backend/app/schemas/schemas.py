@@ -38,8 +38,7 @@ class User(UserBase):
     created_at: datetime
     updated_at: datetime
     
-    class Config:
-        from_attributes = True
+    model_config = {"from_attributes": True}
 
 
 class UserLogin(BaseModel):
@@ -67,8 +66,7 @@ class TagCreate(TagBase):
 class Tag(TagBase):
     id: str
     
-    class Config:
-        from_attributes = True
+    model_config = {"from_attributes": True}
 
 
 class BlogBase(BaseModel):
@@ -82,7 +80,6 @@ class BlogBase(BaseModel):
 
 
 class BlogCreate(BlogBase):
-    author_id: str
     tag_ids: Optional[List[str]] = []
 
 
@@ -106,8 +103,7 @@ class Blog(BlogBase):
     author: User
     tags: List[Tag] = []
     
-    class Config:
-        from_attributes = True
+    model_config = {"from_attributes": True}
 
 
 class BlogList(BaseModel):
@@ -123,8 +119,7 @@ class BlogList(BaseModel):
     author: User
     tags: List[Tag] = []
     
-    class Config:
-        from_attributes = True
+    model_config = {"from_attributes": True}
 
 
 # Comment schemas
@@ -135,7 +130,7 @@ class CommentBase(BaseModel):
 
 
 class CommentCreate(CommentBase):
-    blog_id: str
+    pass
 
 
 class Comment(CommentBase):
@@ -145,8 +140,7 @@ class Comment(CommentBase):
     updated_at: datetime
     blog_id: str
     
-    class Config:
-        from_attributes = True
+    model_config = {"from_attributes": True}
 
 
 # Feature schemas
@@ -167,8 +161,7 @@ class Feature(FeatureBase):
     created_at: datetime
     updated_at: datetime
     
-    class Config:
-        from_attributes = True
+    model_config = {"from_attributes": True}
 
 
 # Testimonial schemas
@@ -193,8 +186,7 @@ class Testimonial(TestimonialBase):
     created_at: datetime
     updated_at: datetime
     
-    class Config:
-        from_attributes = True
+    model_config = {"from_attributes": True}
 
 
 # Contact schemas
@@ -215,8 +207,7 @@ class Contact(ContactBase):
     created_at: datetime
     updated_at: datetime
     
-    class Config:
-        from_attributes = True
+    model_config = {"from_attributes": True}
 
 
 # Newsletter schemas
@@ -234,8 +225,7 @@ class Newsletter(NewsletterBase):
     created_at: datetime
     updated_at: datetime
     
-    class Config:
-        from_attributes = True
+    model_config = {"from_attributes": True}
 
 
 # Menu Item schemas
@@ -258,8 +248,7 @@ class MenuItem(MenuItemBase):
     created_at: datetime
     updated_at: datetime
     
-    class Config:
-        from_attributes = True
+    model_config = {"from_attributes": True}
 
 
 # Update forward reference

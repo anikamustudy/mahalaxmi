@@ -256,6 +256,12 @@ export default function AdminDashboard() {
                           Blogs
                         </a>
                         <a
+                          href="/admin/menu"
+                          className="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-md text-sm font-medium"
+                        >
+                          Menu
+                        </a>
+                        <a
                           href="/admin/contacts"
                           className="bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-md text-sm font-medium"
                         >

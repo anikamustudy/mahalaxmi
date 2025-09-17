@@ -81,7 +81,7 @@ async def get_newsletter_subscribers(
     result = await session.execute(query)
     subscribers = result.scalars().all()
     
-    return [NewsletterSchema.from_orm(subscriber) for subscriber in subscribers]
+    return [NewsletterSchema.model_validate(subscriber) for subscriber in subscribers]
 
 
 @router.delete("/subscribers/{subscriber_id}", response_model=MessageResponse)

@@ -1,0 +1,93 @@
+nohup: ignoring input
+Python-dotenv could not parse statement starting at line 19
+INFO:     Will watch for changes in these directories: ['/home/gyani/Desktop/ramesh/mahalaxmi/backend']
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [7315] using StatReload
+Python-dotenv could not parse statement starting at line 19
+INFO:     Started server process [7471]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:46244 - "GET /health HTTP/1.1" 200 OK
+(trapped) error reading bcrypt version
+Traceback (most recent call last):
+  File "/home/gyani/Desktop/ramesh/mahalaxmi/backend/venv/lib/python3.8/site-packages/passlib/handlers/bcrypt.py", line 620, in _load_backend_mixin
+    version = _bcrypt.__about__.__version__
+AttributeError: module 'bcrypt' has no attribute '__about__'
+INFO:     127.0.0.1:44504 - "POST /api/auth/admin/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:36646 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42936 - "POST /api/auth/admin/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58282 - "OPTIONS /api/navbar/menu HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58296 - "GET /api/navbar/menu HTTP/1.1" 200 OK
+INFO:     127.0.0.1:47018 - "GET /api/navbar/menu HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59234 - "GET /api/navbar/menu HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59234 - "OPTIONS /api/auth/admin/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:39762 - "POST /api/auth/admin/login HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:48908 - "POST /api/auth/admin/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48910 - "OPTIONS /api/auth/admin/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48922 - "POST /api/auth/admin/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:34500 - "POST /api/auth/admin/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53170 - "GET /.well-known/resource-that-should-not-exist-whose-status-code-should-not-be-200 HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:53186 - "GET /.well-known/change-password HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:53186 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53186 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:53192 - "POST /api/auth/admin/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50556 - "POST /api/auth/admin/login HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:42018 - "POST /api/auth/admin/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55142 - "OPTIONS /api/navbar/menu HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55158 - "OPTIONS /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55142 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55160 - "GET /api/navbar/menu HTTP/1.1" 200 OK
+INFO:     127.0.0.1:35562 - "POST /api/auth/admin/login HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:36688 - "POST /api/auth/admin/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37648 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:37642 - "GET /api/navbar/menu HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57816 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57808 - "GET /api/navbar/menu HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51708 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40682 - "GET /api/navbar/menu HTTP/1.1" 200 OK
+WARNING:  StatReload detected changes in 'app/routers/navbar.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [7471]
+Python-dotenv could not parse statement starting at line 19
+INFO:     Started server process [17055]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  StatReload detected changes in 'app/routers/navbar.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [17055]
+Python-dotenv could not parse statement starting at line 19
+INFO:     Started server process [17225]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:50658 - "OPTIONS /api/navbar/menu HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50670 - "OPTIONS /api/navbar/menu HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50674 - "GET /api/navbar/menu HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50674 - "GET /api/navbar/menu HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50670 - "GET /api/navbar/menu HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50670 - "GET /api/navbar/menu HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50674 - "GET /api/navbar/menu HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50658 - "GET /api/navbar/menu HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49936 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:48488 - "GET /api/navbar/admin/menu?include_unpublished=true HTTP/1.1" 401 Unauthorized
+(trapped) error reading bcrypt version
+Traceback (most recent call last):
+  File "/home/gyani/Desktop/ramesh/mahalaxmi/backend/venv/lib/python3.8/site-packages/passlib/handlers/bcrypt.py", line 620, in _load_backend_mixin
+    version = _bcrypt.__about__.__version__
+AttributeError: module 'bcrypt' has no attribute '__about__'
+INFO:     127.0.0.1:49868 - "POST /api/auth/admin/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49874 - "GET /api/navbar/admin/menu?include_unpublished=true HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58486 - "POST /api/auth/admin/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58488 - "GET /api/blogs?limit=5 HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:44634 - "GET /api/blogs?limit=5&published=false HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:33422 - "GET /api/blogs HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:35482 - "GET /api/blogs HTTP/1.1" 307 Temporary Redirect
+INFO:     127.0.0.1:42364 - "GET /api/blogs/ HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59552 - "OPTIONS /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59550 - "GET /api/navbar/menu HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59558 - "GET /api/auth/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59558 - "OPTIONS /api/auth/admin/login HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59550 - "POST /api/auth/admin/login HTTP/1.1" 200 OK

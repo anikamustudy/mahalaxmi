@@ -55,7 +55,7 @@ async def register(
     return Token(
         access_token=access_token,
         token_type="bearer",
-        user=UserSchema.from_orm(db_user)
+        user=UserSchema.model_validate(db_user)
     )
 
 
@@ -84,7 +84,7 @@ async def login(
     return Token(
         access_token=access_token,
         token_type="bearer",
-        user=UserSchema.from_orm(user)
+        user=UserSchema.model_validate(user)
     )
 
 
@@ -120,7 +120,7 @@ async def admin_login(
     return Token(
         access_token=access_token,
         token_type="bearer",
-        user=UserSchema.from_orm(user)
+        user=UserSchema.model_validate(user)
     )
 
 
@@ -128,7 +128,7 @@ async def admin_login(
 async def get_current_user_profile(
     current_user: User = Depends(get_current_active_user)
 ):
-    return UserSchema.from_orm(current_user)
+    return UserSchema.model_validate(current_user)
 
 
 @router.post("/logout", response_model=MessageResponse)
@@ -168,4 +168,4 @@ async def create_user_by_admin(
     await session.commit()
     await session.refresh(db_user)
     
-    return UserSchema.from_orm(db_user)
+    return UserSchema.model_validate(db_user)

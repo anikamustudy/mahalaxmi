@@ -19,7 +19,7 @@ async def get_users(
     result = await session.execute(select(User).order_by(User.created_at.desc()))
     users = result.scalars().all()
     
-    return [UserSchema.from_orm(user) for user in users]
+    return [UserSchema.model_validate(user) for user in users]
 
 
 @router.get("/{user_id}", response_model=UserSchema)
@@ -37,7 +37,7 @@ async def get_user(
             detail="User not found"
         )
     
-    return UserSchema.from_orm(user)
+    return UserSchema.model_validate(user)
 
 
 @router.put("/{user_id}", response_model=UserSchema)
@@ -65,7 +65,7 @@ async def update_user(
     await session.commit()
     await session.refresh(user)
     
-    return UserSchema.from_orm(user)
+    return UserSchema.model_validate(user)
 
 
 @router.delete("/{user_id}", response_model=MessageResponse)
@@ -111,4 +111,4 @@ async def update_own_profile(
     await session.commit()
     await session.refresh(current_user)
     
-    return UserSchema.from_orm(current_user)
+    return UserSchema.model_validate(current_user)

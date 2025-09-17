@@ -27,7 +27,7 @@ async def get_features(
     result = await session.execute(query)
     features = result.scalars().all()
     
-    return [FeatureSchema.from_orm(feature) for feature in features]
+    return [FeatureSchema.model_validate(feature) for feature in features]
 
 
 @router.post("/", response_model=FeatureSchema)
@@ -60,7 +60,7 @@ async def create_feature(
     await session.commit()
     await session.refresh(db_feature)
     
-    return FeatureSchema.from_orm(db_feature)
+    return FeatureSchema.model_validate(db_feature)
 
 
 @router.put("/{feature_id}", response_model=FeatureSchema)
@@ -88,7 +88,7 @@ async def update_feature(
     await session.commit()
     await session.refresh(feature)
     
-    return FeatureSchema.from_orm(feature)
+    return FeatureSchema.model_validate(feature)
 
 
 @router.delete("/{feature_id}", response_model=MessageResponse)

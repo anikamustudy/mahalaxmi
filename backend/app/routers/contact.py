@@ -56,7 +56,7 @@ async def get_contacts(
     result = await session.execute(query)
     contacts = result.scalars().all()
     
-    return [ContactSchema.from_orm(contact) for contact in contacts]
+    return [ContactSchema.model_validate(contact) for contact in contacts]
 
 
 @router.put("/{contact_id}/status", response_model=ContactSchema)
@@ -89,7 +89,7 @@ async def update_contact_status(
     await session.commit()
     await session.refresh(contact)
     
-    return ContactSchema.from_orm(contact)
+    return ContactSchema.model_validate(contact)
 
 
 @router.delete("/{contact_id}", response_model=MessageResponse)

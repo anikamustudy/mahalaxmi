@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { authAPI } from "@/lib/api";
 
 export default function AdminLogin() {
   const [formData, setFormData] = useState({
@@ -23,25 +24,16 @@ export default function AdminLogin() {
     setError("");
 
     try {
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        // Store token in localStorage
-        localStorage.setItem("adminToken", data.data.token);
-        router.push("/admin/dashboard");
-      } else {
-        setError(data.message || "Login failed");
-      }
-    } catch (error) {
-      setError("An error occurred. Please try again.");
+      const data = await authAPI.adminLogin(formData.email, formData.password);
+      
+      // Store token in localStorage
+      localStorage.setItem("adminToken", data.access_token);
+      localStorage.setItem("token", data.access_token); // Also store as general token
+      localStorage.setItem("user", JSON.stringify(data.user));
+      
+      router.push("/admin/dashboard");
+    } catch (error: any) {
+      setError(error.message || "An error occurred. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -109,7 +101,7 @@ export default function AdminLogin() {
           
           <div className="text-center">
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              Default credentials: admin@startup.com / admin123
+              Default credentials: admin@mahalaxmi.com / SecureAdmin2024!
             </p>
           </div>
         </form>
