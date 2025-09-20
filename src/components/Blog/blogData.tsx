@@ -2,10 +2,10 @@ import { Blog } from "@/types/blog";
 
 const blogData: Blog[] = [
   {
-    id: 1,
+    id: "1", // Changed to string
     title: "Best UI components for modern websites",
-    paragraph:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet dictum neque, laoreet dolor.",
+    excerpt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet dictum neque, laoreet dolor.", // Added excerpt
+    paragraph: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet dictum neque, laoreet dolor.", // Kept for legacy
     image: "/images/blog/blog-01.jpg",
     author: {
       name: "Samuyl Joshi",
@@ -13,13 +13,13 @@ const blogData: Blog[] = [
       designation: "Graphic Designer",
     },
     tags: ["creative"],
-    publishDate: "2025",
+    publishDate: "2025-09-20", // Added full date for formatting
   },
   {
-    id: 2,
+    id: "2", // Changed to string
     title: "9 simple ways to improve your design skills",
-    paragraph:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet dictum neque, laoreet dolor.",
+    excerpt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet dictum neque, laoreet dolor.",
+    paragraph: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet dictum neque, laoreet dolor.",
     image: "/images/blog/blog-02.jpg",
     author: {
       name: "Musharof Chy",
@@ -27,13 +27,13 @@ const blogData: Blog[] = [
       designation: "Content Writer",
     },
     tags: ["computer"],
-    publishDate: "2025",
+    publishDate: "2025-09-20",
   },
   {
-    id: 3,
+    id: "3", // Changed to string
     title: "Tips to quickly improve your coding speed.",
-    paragraph:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet dictum neque, laoreet dolor.",
+    excerpt: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet dictum neque, laoreet dolor.",
+    paragraph: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet dictum neque, laoreet dolor.",
     image: "/images/blog/blog-03.jpg",
     author: {
       name: "Lethium Deo",
@@ -41,7 +41,7 @@ const blogData: Blog[] = [
       designation: "Graphic Designer",
     },
     tags: ["design"],
-    publishDate: "2025",
+    publishDate: "2025-09-20",
   },
 ];
 export default blogData;

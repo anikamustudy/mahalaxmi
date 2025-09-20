@@ -21,9 +21,12 @@ class Settings(BaseSettings):
     FIRST_ADMIN_EMAIL: str = "admin@mahalaxmi.com"
     FIRST_ADMIN_PASSWORD: str = "admin123"
     
+    RE_MINUTES: int = 1440  # or whatever default you want
+
     class Config:
         env_file = ".env"
         case_sensitive = True
+        extra = "forbid"
 
 
 settings = Settings()
